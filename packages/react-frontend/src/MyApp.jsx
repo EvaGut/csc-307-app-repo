@@ -6,14 +6,27 @@ import React, {useState, useEffect} from 'react';
 function MyApp() {
   const [characters, setCharacters] = useState([]);
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
-    });
-    setCharacters(updated);}
-
+    const deletedUser = characters[index];
+    const idUser = deletedUser.id;
+    fetch(`http://localhost:8000/users/${idUser}`,{method : "DELETE"})
+    .then((res) =>{
+     if (res.status === 204){
+      const updated = characters.filter((character, i) => {
+        return i !== index;
+      });
+    setCharacters(updated);
+    	 }	
+     });
+  }
    function updateList(person) { 
     postUser(person)
-      .then(() => setCharacters([...characters, person]))
+      .then((res) => {
+	      if (res.status === 201)
+	      {
+		return res.json();
+	      }
+      })
+      .then((userid) => setCharacters([...characters, userid]))
       .catch((error) => {
         console.log(error);
       })
