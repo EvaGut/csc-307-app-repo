@@ -7,7 +7,7 @@ function MyApp() {
   const [characters, setCharacters] = useState([]);
   function removeOneCharacter(index) {
     const deletedUser = characters[index];
-    const idUser = deletedUser.id;
+    const idUser = deletedUser._id;
     fetch(`http://localhost:8000/users/${idUser}`,{method : "DELETE"})
     .then((res) =>{
      if (res.status === 204){
